@@ -9,7 +9,7 @@ drifting further and further away from each other. Have you noticed that many
 times when going out to dinner there is a familiar sight of
 people buried in their phones rather than talking to each other?
 
-There have been several attempts at this including chat roulette - which will
+There have been several attempts at this including omegle - which will
 attempt to connect to a random person from anywhere in the world. Of course,
 these have had various degrees of success (or more simply put - there are
 a lot of creepy people on them).
