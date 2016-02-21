@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container container-table">
+    <div class="row vertical-center-row">
+        <div class="text-center col-md-6 col-md-offset-3">
+            <div>I just need a pieces of information from you so I can match you with your other half.</div>
+            <br>
+            <form role="form">
+                <div class="form-group">
+                    <label for="interests">What are your interests (you may select more than one)?</label>
+                    <select class="form-control" id="interests" multiple>
+                        <option value="running">Running</option>
+                        <option value="anime">Anime</option>
+                        <option value="programmer">Programming</option>
+                        <option value="android">Android</option>
+                    </select>
+                </div>
+                <nav>
+                    <ul class="pager">
+                        <li><a href="./main/info/2">Next</a></li>
+                    </ul>
+                </nav>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#interests").select2();
+        $("#interests").on("change", function () {
+            $.post("./main/sessionset/interests/", {"interests": $(this).val()});
+        });
+    });
+</script>
+
+{% endblock %}

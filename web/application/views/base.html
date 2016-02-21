@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" type="text/css" href="./media/css/jqueryui.css" />
     <link rel="stylesheet" type="text/css" href="./media/css/jquery-confirm.min.css" />
+    <link rel="stylesheet" type="text/css" href="./media/css/waitMe.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/css/select2.min.css" rel="stylesheet" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
@@ -20,15 +22,43 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
     <script src="./media/js/jquery-confirm.min.js"></script>
+    <script src="./media/js/waitMe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/js/select2.min.js"></script>
     <title>{{title}}</title>
     <style type="text/css">
         .text-center {
             text-align: center;
         }
     </style>
+    <style type="text/css">
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            /* bring your own prefixes */
+            transform: translate(-50%, -50%);
+        }
+
+        html, body, .container-table {
+            height: 100%;
+        }
+        .container-table {
+            display: table;
+        }
+        .vertical-center-row {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .intro-text {
+            color: black;
+            font-size: 50px;
+            font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;
+        }
+
+    </style>
 </head>
 <body>
-{% include "menu.html" %}
 {% block content %}{% endblock %}
 </body>
 </html>

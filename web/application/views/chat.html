@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="centered" id="container">
+    <textarea disabled="disabled" autocomplete="off" cols="100" rows="25" id="chat"></textarea>
+    <br>
+    <input autocomplete="off" style="width: 725px;" placeholder="Your message here..." type="text" id="input">
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        var searching = true;
+        function appendChat(text) {
+            var chatVal = $("#chat").val();
+            chatVal += text + "\n";
+            $("#chat").val(chatVal);
+        }
+
+        function poll() {
+            setTimeout(function() {
+                // hit the read endpoint
+                // the read endpoint will return false if matching is in progress
+                // otherwise will return an array
+                $.ajax({
+                    url: "./main/read/", success: function (data) {
+                        if (data === false) {
+                            $("#container").waitMe({
+                                effect: "ios",
+                                text: "Finding match. Please wait...",
+                                bg: 'rgba(255,255,255,0.7)',
+                                color: '#000',
+                                maxSize: ''
+                            });
+                            searching = true;
+                        } else {
+                            $("#container").waitMe("hide");
+                            if (searching) {
+                                appendChat("Friendly Replicator Android (Fran): Match found!");
+                                searching = !searching;
+                            }
+                            if (data) {
+                                $.each(data, function (index, value) {
+                                    appendChat(value);
+                                });
+                            }
+                        }
+                    }, dataType: "json", complete: poll
+                });
+            }, 2000);
+        }
+
+        $('#input').keydown(function (e){
+            if(e.keyCode == 13){
+                var val = $("#input").val();
+                $("#input").val("");
+                appendChat("You: " + val);
+                $.post("./main/send/", {message : val});
+            }
+        });
+
+        $("#container").waitMe({
+           effect: "ios",
+            text: "Finding match. Please wait...",
+            bg: 'rgba(255,255,255,0.7)',
+            color: '#000',
+            maxSize: ''
+        });
+
+
+        poll();
+
+
+
+    });
+</script>
+
+{% endblock %}

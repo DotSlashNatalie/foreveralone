@@ -2,5 +2,66 @@
 
 {% block content %}
 
+<div class="centered">
+    <div id="intro" class="intro-text">
+    Hi there.
+    </div>
+    <div style="text-align: center"><a href="./main/info">Skip</a></div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        // Queue infomercial - There has to be a better way!
+        var counter = 0;
+        var text = ["Hi there.", "You are here because you believe you are forever alone.",
+                    "Not anymore."];
+        var text2 = ['your new friend.',
+                    'your new running partner.',
+                    'your special someone.'];
+        function introText1() {
+            if (counter == 3) {
+                counter = 0;
+                $("#intro").fadeOut(1000).html('I will help you find <div id="find">your soul mate.</div>').fadeIn(1000);
+                setTimeout(function () {
+                    $("#find").fadeOut(1000);
+                }, 1000);
+                setTimeout(function () {
+                    introText2();
+                }, 2000);
+
+            } else {
+                $("#intro").text(text[counter]).fadeIn(1500);
+                setTimeout(function () {
+                    $("#intro").fadeOut(1000);
+                }, 2000);
+                counter++;
+                setTimeout(function () {
+                    introText1();
+                }, 3000);
+            }
+        }
+
+        function introText2() {
+            if (counter <= 2) {
+                console.log(counter);
+                $("#find").html(text2[counter]).fadeIn(1500);
+                counter++;
+                setTimeout(function () {
+                    if (counter <= 2) {
+                        $("#find").fadeOut(1000);
+                    }
+                }, 2000);
+                setTimeout(function () {
+                    introText2();
+                }, 3000)
+            }
+
+        }
+
+        introText1();
+
+    });
+</script>
 
 {% endblock %}
