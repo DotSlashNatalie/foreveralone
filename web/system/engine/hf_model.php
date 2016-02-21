@@ -7,6 +7,10 @@ use \vendor\DB\DB;
 abstract class HF_Model {
 
     public $id = null;
+
+    const AUTOINCREMENT_SQLITE = "AUTOINCREMENT";
+    const AUTOINCREMENT_MYSQL = "AUTO_INCREMENT";
+
     public static function create($data) {
 
         $obj = new static();
@@ -29,7 +33,7 @@ abstract class HF_Model {
             $fieldMap[$column] = $this->$column;
         }
         if ($fieldMap["id"] == null) {
-            DB::insert($table, $fieldMap);
+            $this->id = DB::insert($table, $fieldMap);
         } else {
             $updateFields = $fieldMap;
             unset($updateFields["id"]);
@@ -72,6 +76,13 @@ abstract class HF_Model {
         $table = strtolower($function->getShortName());
         $fields = implode(", ", DB::getColumns($table));
         return DB::fetchObject("SELECT $fields FROM $table WHERE $field = ?", get_called_class(), [$value]);
+    }
+
+    public static function all() {
+        $function = new \ReflectionClass(get_called_class());
+        $table = strtolower($function->getShortName());
+        $fields = implode(", ", DB::getColumns($table));
+        return DB::fetchObject("SELECT $fields FROM $table", get_called_class(), []);
     }
 
 }

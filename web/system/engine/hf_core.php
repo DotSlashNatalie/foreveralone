@@ -307,8 +307,9 @@ class HF_Core
 	public function runMigrations() {
         global $argv;
 		$this->setupDatabaseConnection();
+		$autoIncrement = \system\engine\HF_Model::AUTOINCREMENT_SQLITE;
         DB::query("CREATE TABLE IF NOT EXISTS migrations (
-							  id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+							  id INTEGER PRIMARY KEY $autoIncrement,
 							  migration INTEGER,
 							  ran_at DATETIME
 				)");
