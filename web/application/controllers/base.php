@@ -59,7 +59,25 @@ abstract class base extends \system\engine\HF_Controller {
     {
         parent::__construct($config, $core, $tpl);
         $core->setupDatabaseConnection();
+
+        $expiredSessions = \vendor\DB\DB::fetchObject("SELECT * FROM sessions WHERE lastPing <= ?", "\application\models\Sessions", [time() - 20]);
+        /** @var \application\models\Sessions $session */
+        foreach($expiredSessions as $session) {
+            if ($session->to_user) {
+                /** @var \application\models\Sessions $otherSession */
+                $otherSession = \application\models\Sessions::getByField("id", $session->to_user);
+                $otherSession->waiting = true;
+                $otherSession->to_user = null;
+                $otherSession->save();
+            }
+            $session->delete();
+        }
+
         $this->setupSession();
+        if ($this->session) {
+            $this->session->lastPing = time();
+            $this->session->save();
+        }
 
         if (isset($_POST["csrfmiddlewaretoken"])) {
             if ($_POST["csrfmiddlewaretoken"] != $_COOKIE["csrftoken"]) {
