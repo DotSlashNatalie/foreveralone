@@ -53,6 +53,15 @@ class main extends base
         }
     }
 
+    public function togglerandom() {
+        if ($_POST["random"] == "true") {
+            $this->session->random = 1;
+        } else {
+            $this->session->random = 0;
+        }
+        $this->session->save();
+    }
+
     public function send() {
         $message = new application\models\Messages();
         $message->user_from = $this->session->id;
@@ -127,7 +136,7 @@ class main extends base
             }
 
             // If no match was made - match with first session
-            if ($firstResult && !$result) {
+            if ($firstResult && !$result && $this->session->random) {
                 $firstResult->waiting = 0;
                 $firstResult->to_user = $this->session->id;
                 $this->session->to_user = $firstResult->id;

@@ -13,5 +13,6 @@ DB::query("CREATE TABLE sessions (
           data TEXT,
           waiting TINYINT(1),
           to_user INTEGER,
-          lastPing INTEGER
+          lastPing INTEGER,
+          random TINYINT(1)
 )");

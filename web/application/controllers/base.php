@@ -11,17 +11,9 @@ abstract class base extends \system\engine\HF_Controller {
     protected $sessionData = null;
     protected $loginRequired = true;
     protected $sessionRequired = true;
-    protected function isLoggedIn() {
-        if (!$this->sessionData && !isset($this->sessionData->userId)) {
-            header("Location: /login");
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     protected function loadRender($template, $parameters=array()) {
-        $newParameters = array_merge($parameters, ["session" => $this->sessionData, "config" => $this->config, "user" => $this->user]);
+        $newParameters = array_merge($parameters, ["session" => $this->session, "config" => $this->config, "user" => $this->user]);
         return parent::loadRender($template, $newParameters);
     }
 
@@ -40,6 +32,7 @@ abstract class base extends \system\engine\HF_Controller {
                 $this->session->ip = $_SERVER["REMOTE_ADDR"];
                 $this->session->userAgent = $_SERVER["HTTP_USER_AGENT"];
                 $this->session->sessionid = $sessionId;
+                $this->session->random = 0;
                 $this->session->save();
                 setcookie("session", $sessionId, 2147483647, "/");
             }
@@ -50,6 +43,7 @@ abstract class base extends \system\engine\HF_Controller {
             $this->session->ip = $_SERVER["REMOTE_ADDR"];
             $this->session->userAgent = $_SERVER["HTTP_USER_AGENT"];
             $this->session->sessionid = $sessionId;
+            $this->session->random = 0;
             $this->session->id = $this->session->save();
             setcookie("session", $sessionId, 2147483647, "/");
         }

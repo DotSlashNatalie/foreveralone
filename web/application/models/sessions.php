@@ -10,6 +10,7 @@ class Sessions extends \system\engine\HF_Model {
     public $waiting;
     public $to_user;
     public $lastPing;
+    public $random;
 
     public function setData($key, $val) {
         $raw = json_decode($this->data, true);

@@ -1,15 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class="centered" id="container">
-    <textarea disabled="disabled" autocomplete="off" cols="100" rows="25" id="chat"></textarea>
-    <br>
-    <input autocomplete="off" style="width: 725px;" placeholder="Your message here..." type="text" id="input">
+<div class="centered">
+    <div class="checkbox">
+        <label> <input type="checkbox" id="random"
+                       title="Checking this box will match you with anyone - including those that don't match what you are looking for"
+                       {% if session.random %}checked="checked"{% endif %}
+                        >
+            Match random users</label>
+    </div>
+    <div id="container">
+        <textarea disabled="disabled" autocomplete="off" cols="100" rows="25" id="chat"></textarea>
+        <br>
+        <input autocomplete="off" style="width: 725px;" placeholder="Your message here..." type="text" id="input">
+    </div>
 </div>
 
 <script type="text/javascript">
     $(function () {
+
+        $("#random").tooltip();
+
+        $("#random").change(function (e) {
+            console.log(e);
+            $.post("./main/togglerandom", {random: $(this).is(":checked")});
+        });
 
         var searching = true;
         function appendChat(text) {
