@@ -25,6 +25,10 @@
 
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Or enter a custom gender:</label>
+                    <input type="text" id="customGender"> <button id="genderAdd" type="button" class="btn btn-primary">Add</button>
+                </div>
                 <nav>
                     <ul class="pager">
                         <li><a href="./main/info/1">Prev</a></li>
@@ -42,6 +46,31 @@
         $("#looking").select2();
         $("#looking").on("change", function () {
             $.post("./main/sessionset/looking/", {"looking": $(this).val()});
+        });
+
+        function addGender() {
+            var value = $("#customGender").val();
+            if (value) {
+                $("#looking").append($("<option/>", {
+                    value: value.toLowerCase(),
+                    text: value.toLowerCase(),
+                    selected: "selected"
+                }));
+                var original = $("#looking").val();
+                var newval = $.merge([value], original);
+                $("#looking").val(newval).change();
+                $("#customGender").val("");
+            }
+        }
+
+        $("#customGender").keyup(function (e) {
+            if (e.which == $.ui.keyCode.ENTER) {
+                addGender();
+            }
+        });
+
+        $("#genderAdd").click(function () {
+            addGender();
         });
     });
 </script>
