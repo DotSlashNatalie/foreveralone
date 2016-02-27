@@ -21,20 +21,22 @@ class main extends base
     }
 
     public function chat() {
-        $this->session->setData("waiting", true);
-        $toUser = $this->session->getData("toUser");
+        $this->session->waiting = 1;
+        $this->session->save();
+        $toUser = $this->session->to_user;
         if ($toUser) {
             /** @var \application\models\Sessions $otherUserSession */
             $otherUserSession = \application\models\Sessions::getByField("id", $toUser);
             if ($otherUserSession) {
                 $otherUserSession = $otherUserSession[0];
-                $otherUserSession->setData("waiting", "true");
-                $otherUserSession->setData("toUser", null);
+                $otherUserSession->waiting = true;
+                $otherUserSession->to_user = null;
                 $otherUserSession->save();
             }
+            $this->session->to_user = null;
+            $this->session->save();
         }
-        $this->session->setData("toUser", null);
-        $this->session->save();
+
         echo $this->loadRender("chat.html");
     }
 
@@ -47,13 +49,14 @@ class main extends base
     public function sessionset($key) {
         if (in_array($key, ["interests", "gender", "looking"])) {
             $this->session->setData($key, $_POST[$key]);
+            $this->session->save();
         }
     }
 
     public function send() {
         $message = new application\models\Messages();
         $message->user_from = $this->session->id;
-        $message->user_to = $this->session->getData("toUser");
+        $message->user_to = $this->session->to_user;
         $message->message = $_POST["message"];
         $message->save();
     }
@@ -66,18 +69,18 @@ class main extends base
         $lock = \application\models\Settings::getSetting("readLock");
 
         while($lock) {
-            $lock = false;
+            $lock = \application\models\Settings::getSetting("readLock");
         }
         \application\models\Settings::setSetting("readLock", (int)true);
 
         // Check if the current user is talking to someone
-        $toUser = $this->session->getData("toUser");
+        $toUser = $this->session->to_user;
         /** @var \application\models\Sessions $session */
-        $otherSession = \application\models\Sessions::getByField("id", $this->session->getData("toUser"));
+        $otherSession = \application\models\Sessions::getByField("id", $toUser);
         if ($otherSession) {
             $otherSession = $otherSession[0];
             // If they aren't waiting and the current toUser is this user..
-            if ($otherSession->getData("waiting") && $otherSession->getData("toUser") != $this->session->id) {
+            if ($otherSession->waiting && $toUser != $this->session->id) {
                 $search = true;
             }
         } else {
@@ -88,18 +91,19 @@ class main extends base
         /** @var \application\models\Sessions $firstResult */
         $firstResult = null;
         if ($search) {
-            $allSessions = \application\models\Sessions::all();
+            $allSessions = \application\models\Sessions::getByField("waiting", 1);
             shuffle($allSessions);
             shuffle($allSessions);
             /** @var \application\models\Sessions $session */
             foreach ($allSessions as $session) {
-                if ($session->getData("toUser") == $this->session->id && $this->session->getData("toUser") == null) {
+                if ($session->getData("toUser") == $this->session->id && $toUser == null) {
                     // "kick the other user"
-                    $session->setData("toUser", null);
-                    $session->setData("waiting", false);
+                    $session->to_user = null;
+                    $session->waiting = 0;
+                    $session->save();
                     continue;
                 }
-                if ($session->getData("waiting") && $session->id != $this->session->id) {
+                if ($session->waiting && $session->id != $this->session->id) {
                     $firstResult = $session;
                     $interestWeight = [];
                     $gender1Weight = true;
@@ -111,10 +115,10 @@ class main extends base
                     } catch (\Exception $e) { }
                     if ($gender1Weight && $gender2Weight && count($interestWeight) > 0) {
                         $result = true;
-                        $session->setData("waiting", false);
-                        $session->setData("toUser", $this->session->id);
-                        $this->session->setData("toUser", $session->id);
-                        $this->session->setData("waiting", false);
+                        $session->waiting = 0;
+                        $session->to_user = $this->session->id;
+                        $this->session->to_user = $session->id;
+                        $this->session->waiting = 0;
                         $session->save();
                         $this->session->save();
                         break;
@@ -124,10 +128,10 @@ class main extends base
 
             // If no match was made - match with first session
             if ($firstResult && !$result) {
-                $firstResult->setData("waiting", false);
-                $firstResult->setData("toUser", $this->session->id);
-                $this->session->setData("toUser", $firstResult->id);
-                $this->session->setData("waiting", false);
+                $firstResult->waiting = 0;
+                $firstResult->to_user = $this->session->id;
+                $this->session->to_user = $firstResult->id;
+                $this->session->waiting = 0;
                 $firstResult->save();
                 $this->session->save();
                 $result = true;

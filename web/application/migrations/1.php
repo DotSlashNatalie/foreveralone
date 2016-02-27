@@ -10,5 +10,8 @@ DB::query("CREATE TABLE sessions (
           sessionid VARCHAR(255),
           ip VARCHAR(255),
           userAgent VARCHAR(255),
-          data TEXT
+          data TEXT,
+          waiting TINYINT(1),
+          to_user INTEGER,
+          lastPing INTEGER
 )");

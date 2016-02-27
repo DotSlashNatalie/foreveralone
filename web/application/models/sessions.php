@@ -7,6 +7,9 @@ class Sessions extends \system\engine\HF_Model {
     public $ip;
     public $userAgent;
     public $data;
+    public $waiting;
+    public $to_user;
+    public $lastPing;
 
     public function setData($key, $val) {
         $raw = json_decode($this->data, true);
