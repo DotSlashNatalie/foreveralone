@@ -13,9 +13,17 @@
                     <select class="form-control" id="interests" multiple>
                         <option value="running">Running</option>
                         <option value="anime">Anime</option>
-                        <option value="programmer">Programming</option>
+                        <option value="programming">Programming</option>
                         <option value="android">Android</option>
+                        <option value="apple">Apple</option>
+                        <option value="math">Math</option>
+                        <option value="aliens">Aliens</option>
+                        <option value="reddit">Reddit</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>Or enter a custom interest:</label>
+                    <input type="text" id="customInterest"> <button id="interestAdd" type="button" class="btn btn-primary">Add</button>
                 </div>
                 <nav>
                     <ul class="pager">
@@ -33,6 +41,31 @@
         $("#interests").select2();
         $("#interests").on("change", function () {
             $.post("./main/sessionset/interests/", {"interests": $(this).val()});
+        });
+
+        function addInterest() {
+            var value = $("#customInterest").val();
+            if (value) {
+                $("#interests").append($("<option/>", {
+                    value: value.toLowerCase(),
+                    text: value.toLowerCase(),
+                    selected: "selected"
+                }));
+                var original = $("#interests").val();
+                var newval = $.merge([value], original);
+                $("#interests").val(newval).change();
+                $("#customInterest").val("");
+            }
+        }
+
+        $("#customInterest").keyup(function (e) {
+            if (e.which == $.ui.keyCode.ENTER) {
+                addInterest();
+            }
+        });
+
+        $("#interestAdd").click(function () {
+            addInterest();
         });
     });
 </script>
