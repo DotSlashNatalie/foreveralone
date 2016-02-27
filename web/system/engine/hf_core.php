@@ -1,10 +1,5 @@
 <?php
 
-/*include "system/engine/hf_controller.php";
-include "system/engine/smtp.php";
-include "system/engine/exceptions.php";
-include "system/engine/hf_model.php";*/
-
 namespace system\engine;
 
 use vendor\DB\DB;
@@ -313,6 +308,10 @@ class HF_Core
 							  migration INTEGER,
 							  ran_at DATETIME
 				)");
+		if (count($argv) < 2) {
+			echo "options = show, count, run, clear, reset";
+			return;
+		}
         switch ($argv[1]) {
             case "show":
                 foreach(DB::fetch("SELECT migration, ran_at FROM migrations") as $migration) {

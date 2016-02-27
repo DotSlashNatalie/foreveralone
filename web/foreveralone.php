@@ -25,8 +25,4 @@ switch ($argv[1]) {
 		\vendor\DB\DB::query("DELETE FROM users");
 		\vendor\DB\DB::query("DELETE FROM sessions");
 		break;
-	case "adduser":
-		$user = $argv[2];
-		\vendor\DB\DB::query("INSERT INTO users VALUES (null, ?)", [$user]);
-		break;
 }
