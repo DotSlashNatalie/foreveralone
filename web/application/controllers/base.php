@@ -59,10 +59,12 @@ abstract class base extends \system\engine\HF_Controller {
         foreach($expiredSessions as $session) {
             if ($session->to_user) {
                 /** @var \application\models\Sessions $otherSession */
-                $otherSession = \application\models\Sessions::getByField("id", $session->to_user);
-                $otherSession->waiting = true;
+                $otherSession = \application\models\Sessions::getByField("id", $session->to_user)[0];
+                $otherSession->waiting = 1;
                 $otherSession->to_user = null;
                 $otherSession->save();
+                \vendor\DB\DB::query("DELETE FROM messages WHERE user_from = ? AND user_to = ?", [$session->id, $otherSession->id]);
+                \vendor\DB\DB::query("DELETE FROM messages WHERE user_from = ? AND user_to = ?", [$otherSession->id, $session->id]);
             }
             $session->delete();
         }

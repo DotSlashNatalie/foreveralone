@@ -3,23 +3,39 @@
 {% block content %}
 <div class="centered">
     <div class="checkbox">
-        <label> <input type="checkbox" id="random"
-                       title="Checking this box will match you with anyone - including those that don't match what you are looking for"
+        <label> <input type="checkbox" id="random" class="set-tooltip"
+                       title="Checking this box will match you with anyone - including those that don't match what you are looking for.
+                       You and the other party must have this box checked for it to create a match."
                        {% if session.random %}checked="checked"{% endif %}
                         >
             Match random users</label>
     </div>
     <div id="container">
+        <button title="You may or may not be matched with the same person again" type="button" id="newMatch" class="set-tooltip btn btn-primary">Find new match</button>
+        <button title="This will prevent the person at the current session from talking to you and match you with a new person" id="banAndNewMatch" type="button" class="set-tooltip btn btn-danger">Ignore and find new match</button>
+        <br>
+        <br>
         <textarea disabled="disabled" autocomplete="off" cols="100" rows="25" id="chat"></textarea>
         <br>
-        <input autocomplete="off" style="width: 725px;" placeholder="Your message here..." type="text" id="input">
+        <input autocomplete="off" style="width: 725px;" placeholder="Your message here..." type="text" id="input"><br>
+
     </div>
 </div>
 
 <script type="text/javascript">
     $(function () {
 
-        $("#random").tooltip();
+        $("#newMatch").click(function () {
+            location.reload();
+        });
+
+        $("#banAndNewMatch").click(function () {
+            $.get("./main/ignoresession/", function () {
+                location.reload();
+            });
+        });
+
+        $(".set-tooltip").tooltip();
 
         $("#random").change(function (e) {
             console.log(e);

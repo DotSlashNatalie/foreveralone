@@ -21,6 +21,10 @@ class main extends base
     }
 
     public function chat() {
+        if (!$this->session->data) {
+            header("location: /main/info/");
+            return;
+        }
         $this->session->waiting = 1;
         $this->session->save();
         $toUser = $this->session->to_user;
@@ -53,6 +57,13 @@ class main extends base
         }
     }
 
+    public function ignoresession() {
+        $ignore = $this->session->getData("ignore");
+        $ignore[] = $this->session->to_user;
+        $this->session->setData("ignore", $ignore);
+        $this->session->save();
+    }
+
     public function togglerandom() {
         if ($_POST["random"] == "true") {
             $this->session->random = 1;
@@ -75,12 +86,12 @@ class main extends base
         $search = false;
 
         // work around for SQLite
-        $lock = \application\models\Settings::getSetting("readLock");
+        //$lock = \application\models\Settings::getSetting("readLock");
 
-        while($lock) {
+        /*while($lock) {
             $lock = \application\models\Settings::getSetting("readLock");
         }
-        \application\models\Settings::setSetting("readLock", (int)true);
+        \application\models\Settings::setSetting("readLock", (int)true);*/
 
         // Check if the current user is talking to someone
         $toUser = $this->session->to_user;
@@ -99,13 +110,23 @@ class main extends base
         // search for someone else in waiting queue
         /** @var \application\models\Sessions $firstResult */
         $firstResult = null;
+        $tmpSessions = [];
+        $ignoreUsers = $this->session->getData("ignore") ?: [];
         if ($search) {
             $allSessions = \application\models\Sessions::getByField("waiting", 1);
+            foreach ($allSessions as $session) {
+                $ignoreUsersOther = $session->getData("ignore") ?: [];
+                if (!in_array($session->id, $ignoreUsers) && !in_array($this->session->id, $ignoreUsersOther)) {
+                    $tmpSessions[] = $session;
+                }
+                $allSessions = $tmpSessions;
+            }
+
             shuffle($allSessions);
             shuffle($allSessions);
             /** @var \application\models\Sessions $session */
             foreach ($allSessions as $session) {
-                if ($session->getData("toUser") == $this->session->id && $toUser == null) {
+                if ($session->to_user == $this->session->id && $toUser == null) {
                     // "kick the other user"
                     $session->to_user = null;
                     $session->waiting = 0;
@@ -113,7 +134,9 @@ class main extends base
                     continue;
                 }
                 if ($session->waiting && $session->id != $this->session->id) {
-                    $firstResult = $session;
+                    if ($session->random) {
+                        $firstResult = $session;
+                    }
                     $interestWeight = [];
                     $gender1Weight = true;
                     $gender2Weight = true;
@@ -147,7 +170,7 @@ class main extends base
             }
 
             if (!$result) {
-                \application\models\Settings::setSetting("readLock", (int)false);
+                //\application\models\Settings::setSetting("readLock", (int)false);
                 echo json_encode(false);
                 return;
             }
@@ -164,6 +187,6 @@ class main extends base
         }
 
         echo json_encode($return);
-        \application\models\Settings::setSetting("readLock", (int)false);
+        //\application\models\Settings::setSetting("readLock", (int)false);
     }
 }
