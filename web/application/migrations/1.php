@@ -17,6 +17,9 @@ DB::query("CREATE TABLE sessions (
           random TINYINT(1)
 )");
 
+DB::query("CREATE INDEX waiting_idx ON sessions(waiting)");
+DB::query("CREATE INDEX lastping_idx ON sessions(lastPing)");
+
 DB::query("CREATE TABLE sessionlogs (
           id INTEGER PRIMARY KEY $autoIncrement,
           original_id INTEGER,
