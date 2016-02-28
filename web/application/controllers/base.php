@@ -34,6 +34,7 @@ abstract class base extends \system\engine\HF_Controller {
                 $this->session->sessionid = $sessionId;
                 $this->session->random = 0;
                 $this->session->save();
+                $this->saveSession();
                 setcookie("session", $sessionId, 2147483647, "/");
             }
         } else {
@@ -44,9 +45,19 @@ abstract class base extends \system\engine\HF_Controller {
             $this->session->userAgent = $_SERVER["HTTP_USER_AGENT"];
             $this->session->sessionid = $sessionId;
             $this->session->random = 0;
-            $this->session->id = $this->session->save();
+            $this->session->save();
+            $this->saveSession();
             setcookie("session", $sessionId, 2147483647, "/");
         }
+    }
+
+    protected function saveSession() {
+        $sessionlog = new \application\models\Sessionlogs();
+        $sessionlog->ip = $this->session->ip;
+        $sessionlog->original_id = $this->session->id;
+        $sessionlog->userAgent = $this->session->userAgent;
+        $sessionlog->sessionid = $this->session->sessionid;
+        $sessionlog->save();
     }
 
     public function __construct($config, $core, $tpl)

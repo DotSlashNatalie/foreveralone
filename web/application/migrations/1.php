@@ -16,3 +16,11 @@ DB::query("CREATE TABLE sessions (
           lastPing INTEGER,
           random TINYINT(1)
 )");
+
+DB::query("CREATE TABLE sessionlogs (
+          id INTEGER PRIMARY KEY $autoIncrement,
+          original_id INTEGER,
+          sessionid VARCHAR(255),
+          ip VARCHAR(255),
+          userAgent VARCHAR(255)
+)");
