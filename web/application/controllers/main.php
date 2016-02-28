@@ -20,6 +20,14 @@ class main extends base
         }
     }
 
+    public function faq() {
+        echo $this->loadRender("faq.html");
+    }
+
+    public function about() {
+        echo $this->loadRender("about.html");
+    }
+
     public function chat() {
         if (!$this->session->data) {
             header("location: /main/info/");

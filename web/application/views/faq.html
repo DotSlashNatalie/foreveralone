@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="centered faq-scroll">
+<div class="container container-table">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Can I donate to keep this project alive?</h3>
+        </div>
+        <div class="panel-body">
+            Of course! I accept <a href="https://www.paypal.me/NateAdams">paypal</a> or BTC <a href="bitcoin:144V9MuxvtmAFX675GMeTQmQeJ3j2euAZV">144V9MuxvtmAFX675GMeTQmQeJ3j2euAZV</a>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Can I register an account?</h3>
+        </div>
+        <div class="panel-body">
+            Not as of today. I may eventually allow "registering" via oauth providers (such as Google, Facebook, github etc).
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Who can use this site?</h3>
+        </div>
+        <div class="panel-body">
+           I am going to follow in the footsteps of chatroulette and say any person that is 18 years and older.
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">I found a spammer/scammer/creep!</h3>
+        </div>
+        <div class="panel-body">
+            Yikes! Send me their id and a screenshot of messages and I'll see what I can do.<br>
+            I wish this didn't need to be said but if someone posts a link YOU PROBABLY SHOULD NOT CLICK ON IT.<br>
+            *puts hands over sides of LCD monitor* UNLESS YOU TRUST THE WEBSITE DO NOT VISIT ANY SITE A USER SENDS YOU.<br>
+            <h1>By using this site you agree to hold me, and anyone who works on, or related to, this project, harmless
+                (ie not responsible for any damage to life or property).</h1><br>
+            If you do go to a site a user messages you and you install a virus YOU AGREE THAT IT IS YOUR OWN FAULT.
+            You should know to not go to sites random people send you AND DON'T OPEN EMAIL ATTACHMENTS YOU AREN'T EXPECTING.
+            <br>
+            IF SOMEONE ASKS TO MEET OFFLINE USE YOUR COMMON SENSE AND GUT FEELINGS. DON'T MEET IN A DARK ALLEY. MEET
+            AT A PUBLIC PLACE WITH LOTS OF PEOPLE SUCH AS A CROWDED AND WEL LIT RESTAURANT.
+            <br>
+            DO NOT REVEAL PERSONAL INFORMATION UNLESS YOU FEEL 110% COMFORTABLE WITH THE OTHER PERSON. A good start
+            might be to give out your facebook or create a facebook that is designed for meeting random people.
+            <br>
+           Sorry, I have to make that crystal clear.
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">What is this programmed in?</h3>
+        </div>
+        <div class="panel-body">
+            Current stack is PHP/MySQL/Bootstrap and SQlite for development. I may integrate monogodb and websockets at some point.<br>
+            I also don't think this would be possible without the use of <a href="https://www.jetbrains.com/phpstorm/">PHPStorm</a>.
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Who are you?</h3>
+        </div>
+        <div class="panel-body">
+            Programmer, sysadmin, netadmin, and teacher - <a href="http://resume.theblogofnate.com/">CV/Resume</a>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">How is this different from chatroulette/omegle/etc?</h3>
+        </div>
+        <div class="panel-body">
+            ForeverAlone is a random chat matching program that tries to match people based on similar interests
+            rather than just some random person around the world. Read more about the project <a href="./main/about">here</a>.
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Do you collect any data?</h3>
+        </div>
+        <div class="panel-body">
+            The only data I log is related to previous session connections. Before you get angry, this is due to people
+            who would use this service for nefarious purposes. If you care about your privacy online and know someone
+            who brags about or claims that they will do something illegal - you should probably convince them, via any means,
+            them not to do it.
+            Session data becomes stale after 20 seconds and is
+            automatically purged. I think it would be interesting to collate data and provide a report via trend like
+            <a href="http://oktrends.okcupid.com/">okcupid does</a>. (As a computer scientist I love me some analytical
+            data that I can query and create graphs and charts out of!)
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Is this open source?</h3>
+        </div>
+        <div class="panel-body">
+            <a href="https://srchub.org/p/foreveralone/">ForeverAlone is open source</a> and released under the MIT license.
+            Feel free to create pull requests, patches, or spin off your own fork for your organization, company, etc.
+            One of the goals of ForeverAlone is to make the barrier as low as possible to run it - so it should run on
+            any standard shared hosting service.
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Will you help me get this running on my site/server?</h3>
+        </div>
+        <div class="panel-body">
+            I'll offer free "best effort" support through email. Anything outside of that will require an hourly (up front)
+            payment for my time.
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">It looks like you are using your own framework? Wtf dude you suck???</h3>
+        </div>
+        <div class="panel-body">
+            I've been a huge fan of the original codeigniter due to it's simplicity of not requiring use of the framework.<br>
+            As far as I can see no PHP framework today fills that niche. There are a number of micro frameworks but they
+            didn't feel like they were what I was looking for. I believe in keeping things as simple as possible.<br>
+            If you feel CakePHP/Symphony/etc is a better framework you are free to fork this code and use those frameworks
+            instead. Otherwise, this will be my reply to anyone who criticizes the code "patches welcome".
+        </div>
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

@@ -36,8 +36,13 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            /* bring your own prefixes */
             transform: translate(-50%, -50%);
+        }
+
+        .bottom {
+            position: fixed;
+            top: 93%;
+            left: 45%;
         }
 
         html, body, .container-table {
@@ -57,9 +62,19 @@
             font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;
         }
 
+        .faq-scroll {
+
+            height: 600px;
+            overflow: hidden;
+            overflow-y: scroll;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body>
 {% block content %}{% endblock %}
+<div class="bottom"><a href="./main/faq/">FAQ</a> | <a href="mailto:contact@foreveralone.io">Contact</a> | <a href="./main/about/">About</a></div>
 </body>
 </html>
