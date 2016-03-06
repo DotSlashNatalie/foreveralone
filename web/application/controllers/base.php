@@ -65,7 +65,7 @@ abstract class base extends \system\engine\HF_Controller {
         parent::__construct($config, $core, $tpl);
         $core->setupDatabaseConnection();
 
-        $expiredSessions = \vendor\DB\DB::fetchObject("SELECT * FROM sessions WHERE lastPing <= ?", "\application\models\Sessions", [time() - 20]);
+        $expiredSessions = \vendor\DB\DB::fetchObject("SELECT * FROM sessions WHERE lastPing <= ?", "\application\models\Sessions", [time() - 120]);
         /** @var \application\models\Sessions $session */
         foreach($expiredSessions as $session) {
             if ($session->to_user) {
