@@ -6,7 +6,9 @@
     <div id="intro" class="intro-text">
     Hi there.
     </div>
-    <div style="text-align: center"><a href="./main/info">Skip</a></div>
+    <div style="text-align: center">
+        <a id="continue" href="./main/info" class="btn btn-primary btn-lg active" role="button"><br>Click here to skip intro and chat with someone<br>&nbsp;</a>
+    </div>
 </div>
 
 
@@ -43,6 +45,9 @@
         }
 
         function introText2() {
+            if (counter == 3) {
+                document.getElementById("continue").click()
+            }
             if (counter <= 2) {
                 $("#find").html(text2[counter]).fadeIn(1500);
                 counter++;
@@ -55,7 +60,6 @@
                     introText2();
                 }, 3000)
             }
-
         }
 
         introText1();
