@@ -24,7 +24,7 @@
         <button title="This will prevent the person at the current session from talking to you and match you with a new person" id="banAndNewMatch" type="button" class="set-tooltip btn btn-danger">Ignore and find new match</button>
         <br>
         <br>
-        <textarea disabled="disabled" autocomplete="off" cols="100" rows="25" id="chat"></textarea>
+        <textarea disabled="disabled" autocomplete="off" cols="100" rows="15" id="chat"></textarea>
         <br>
         <input autocomplete="off" style="width: 725px;" placeholder="Your message here..." type="text" id="input"><br>
 
@@ -34,7 +34,6 @@
 
 <script type="text/javascript">
     $(function () {
-
         $("#newMatch").click(function () {
             location.reload();
         });
@@ -64,6 +63,7 @@
                 // hit the read endpoint
                 // the read endpoint will return false if matching is in progress
                 // otherwise will return an array
+
                 $.ajax({
                     url: "./main/read/", success: function (data) {
                         if (data === false) {
