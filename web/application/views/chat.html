@@ -5,10 +5,19 @@
     <div class="checkbox">
         <label> <input type="checkbox" id="random" class="set-tooltip"
                        title="Checking this box will match you with anyone - including those that don't match what you are looking for.
-                       You and the other party must have this box checked for it to create a match."
+                       You and the other party must have this box checked for it to create a random match."
                        {% if session.random %}checked="checked"{% endif %}
                         >
-            Match random users</label>
+            <div class="set-tooltip"
+                 title="Checking this box will match you with anyone - including those that don't match what you are looking for.
+                       You and the other party must have this box checked for it to create a random match.">Match random users</div></label>
+    </div>
+    <div>
+        <a class="set-tooltip" title="Fran is a reference to a friendly replicator in Stargate Atlantis.
+        Instead of destroying the replicator collective I have hired her to help me with matching of users.
+        " href="http://stargate.wikia.com/wiki/Friendly_Replicator_Android">Who is Fran?</a>
+        <br>
+        <br>
     </div>
     <div id="container">
         <button title="You may or may not be matched with the same person again" type="button" id="newMatch" class="set-tooltip btn btn-primary">Find new match</button>
@@ -20,6 +29,7 @@
         <input autocomplete="off" style="width: 725px;" placeholder="Your message here..." type="text" id="input"><br>
 
     </div>
+
 </div>
 
 <script type="text/javascript">
