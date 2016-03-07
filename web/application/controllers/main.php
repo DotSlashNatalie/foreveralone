@@ -161,6 +161,19 @@ class main extends base
                         $this->session->waiting = 0;
                         $session->save();
                         $this->session->save();
+                        $interests = implode(", ", $interestWeight);
+
+                        $message1 = new \application\models\Messages();
+                        $message1->user_from = -1;
+                        $message1->user_to = $session->id;
+                        $message1->message = "Matched on interests -> $interests";
+                        $message1->save();
+
+                        $message2 = new \application\models\Messages();
+                        $message2->user_from = -1;
+                        $message2->user_to = $this->session->id;
+                        $message2->message = "Matched on interests -> $interests";
+                        $message2->save();
                         break;
                     }
                 }
@@ -190,7 +203,12 @@ class main extends base
         $messages = \application\models\Messages::getByField("user_to", $this->session->id);
         $return = [];
         foreach($messages as $message) {
-            $return[] = $message->user_from . ": " . $message->message;
+            if ($message->user_from == -1) {
+                $return[] = "Fran: " . $message->message;
+            } else {
+                $return[] = $message->user_from . ": " . $message->message;
+            }
+
             $message->delete();
         }
 
